@@ -1,23 +1,20 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import type { PreloadedState } from "@reduxjs/toolkit";
-import { homeApi } from "pages/Home/Home.api";
 
-import homeReducer from "pages/Home/Home.slice";
-
-const rootReducer = combineReducers({
-  home: homeReducer,
-  [homeApi.reducerPath]: homeApi.reducer,
-});
+const rootReducer = combineReducers({});
 
 export const createStore = (preloadedState?: PreloadedState<RootState>) => {
   return configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(homeApi.middleware),
     preloadedState,
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+    devTools: process.env.NODE_ENV !== "production",
   });
 };
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof createStore>;
-export type AppDispatch = typeof createStore;
+
+/**
+ * getDefaultMiddleware
+ * it returns an array of default list of middleware [thunk, immutableStateInvariant, serializableStateInvariant]
+ */
